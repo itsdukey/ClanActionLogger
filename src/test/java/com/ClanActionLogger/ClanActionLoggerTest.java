@@ -1,4 +1,4 @@
-package com.example;
+package com.ClanActionLogger;
 
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
