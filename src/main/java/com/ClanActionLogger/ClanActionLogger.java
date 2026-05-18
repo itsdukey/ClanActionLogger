@@ -4,6 +4,7 @@ import com.google.inject.Provides;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.GameState;
 import net.runelite.api.events.ChatMessage;
 
 // Clan API Imports
@@ -44,6 +45,9 @@ public class ClanActionLogger extends Plugin
 	@Inject
 	private OkHttpClient okHttpClient;
 
+	@Inject
+	private ConfigManager configManager;
+
 	// Permanent roster state tracking memory
 	private final Map<String, String> clanRosterMemory = new HashMap<>();
 	private final Map<String, String> displayNameMemory = new HashMap<>();
@@ -55,6 +59,9 @@ public class ClanActionLogger extends Plugin
 	private final Map<String, String> pendingAddsRank = new HashMap<>();
 	private final Map<String, Long> pendingAddsTime = new HashMap<>();
 	private final Map<String, Long> pendingRemovalsTime = new HashMap<>();
+
+	// Context tracker to prevent webhook storms on clan switches
+	private String lastClanName = null;
 
 	@Provides
 	ClanActionLoggerConfig provideConfig(ConfigManager configManager)
@@ -71,6 +78,7 @@ public class ClanActionLogger extends Plugin
 		pendingAddsRank.clear();
 		pendingAddsTime.clear();
 		pendingRemovalsTime.clear();
+		lastClanName = null;
 	}
 
 	/**
@@ -92,6 +100,15 @@ public class ClanActionLogger extends Plugin
 	{
 		String message = Text.removeTags(chatMessage.getMessage()).replace("\u00A0", " ");
 		long now = System.currentTimeMillis();
+
+		// MALICIOUS USER PROTECTION: If local user leaves or gets expelled, clear configuration instantly
+		if (message.contains("You have left the clan.") || message.contains("You have been expelled from the clan."))
+		{
+			log.info("[SECURITY ALERT] Local player has left or been expelled from the clan. Purging webhook credentials.");
+			configManager.setConfiguration("clanactionlogger", "adminWebhookUrl", "");
+			configManager.setConfiguration("clanactionlogger", "enableMonitoring", false);
+			return;
+		}
 
 		// CHAT DEDUPLICATOR: If this exact raw string message ran within the last 2 seconds, kill it
 		String standardizedMessageKey = "msg_" + standardizeName(message);
@@ -272,10 +289,52 @@ public class ClanActionLogger extends Plugin
 		}
 
 		ClanSettings mainClanSettings = client.getClanSettings(ClanID.CLAN);
+
+		// CONFIGURATION CONFIRMATION PATHWAY 1: Player leaves clan (Settings evaluate to null)
 		if (mainClanSettings == null)
 		{
+			if (lastClanName != null)
+			{
+				log.info("[CLAN GUARD] Clan context lost (Left Clan). Wiping memory ledger for: " + lastClanName);
+				clanRosterMemory.clear();
+				pendingAddsRank.clear();
+				pendingAddsTime.clear();
+				pendingRemovalsTime.clear();
+
+				// BACKUP SECURITY PURGE: If player leaves clan while actively remaining logged into the game world
+				if (client.getGameState() == GameState.LOGGED_IN)
+				{
+					log.info("[SECURITY PURGE] Actively logged-in player lost clan affiliation. Revoking config credentials.");
+					configManager.setConfiguration("clanactionlogger", "adminWebhookUrl", "");
+					configManager.setConfiguration("clanactionlogger", "enableMonitoring", false);
+				}
+
+				lastClanName = null;
+			}
 			return;
 		}
+
+		// GUARD: Detect if player switched clans or if a new clan context loaded
+		String currentClanName = mainClanSettings.getName();
+
+		// CONFIGURATION CONFIRMATION PATHWAY 2: Immediate swap without middleman leave step
+		if (lastClanName != null && !lastClanName.equalsIgnoreCase(currentClanName))
+		{
+			log.info("[CLAN GUARD] Switched clans from {} to {}. Muting fallback net!", lastClanName, currentClanName);
+
+			clanRosterMemory.clear();
+			pendingAddsRank.clear();
+			pendingAddsTime.clear();
+			pendingRemovalsTime.clear();
+		}
+
+		// CONFIGURATION CONFIRMATION PATHWAY 3: Mapping clean startup state profiles
+		if (lastClanName == null)
+		{
+			log.info("[CLAN GUARD] Initializing silent baseline profile for clan: " + currentClanName);
+		}
+
+		lastClanName = currentClanName;
 
 		boolean isInitialLoad = clanRosterMemory.isEmpty();
 		Set<String> currentIterationMembers = new HashSet<>();
@@ -372,7 +431,7 @@ public class ClanActionLogger extends Plugin
 
 		// AUTOMATIC MIDDLEMAN PROXY ROUTING
 		String finalTargetUrl = webhookUrl.trim();
-		if (finalTargetUrl.contains("discord.com") || finalTargetUrl.contains("discordapp.com"))
+		if (config.enableMonitoring() && (finalTargetUrl.contains("discord.com") || finalTargetUrl.contains("discordapp.com")))
 		{
 			if (!finalTargetUrl.contains("clan-deduplicator.onrender.com"))
 			{

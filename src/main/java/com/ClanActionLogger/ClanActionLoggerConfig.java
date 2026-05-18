@@ -29,11 +29,23 @@ public interface ClanActionLoggerConfig extends Config
 	default String adminWebhookUrl() { return ""; }
 
 	@ConfigItem(
+			keyName = "enableMonitoring",
+			name = "Enable Monitoring Proxy",
+			description = "Routes logs through a proxy server to prevent duplicate posts from multiple online admins.",
+			section = adminSection,
+			position = 2,
+			warning = "Enabling this routes your clan logs through a remote third-party deduplication proxy server to safely intercept and eliminate double-posts from multiple online admins.\n\n"
+					+ "This transmits log text and temporarily exposes your outbound IP address to the external cloud application hosting service.\n\n"
+					+ "If disabled, logs flow directly from your client to Discord without cross-admin duplication protection."
+	)
+	default boolean enableMonitoring() { return false; }
+
+	@ConfigItem(
 			keyName = "logKicks",
 			name = "Log Kicks & Bans",
 			description = "Sends a log when a member is expelled or banned from the clan chat",
 			section = adminSection,
-			position = 2
+			position = 3
 	)
 	default boolean logKicks() { return true; }
 
@@ -42,7 +54,7 @@ public interface ClanActionLoggerConfig extends Config
 			name = "Log Invites",
 			description = "Sends a log when a member is recruited or invited to the permanent clan roster",
 			section = adminSection,
-			position = 3
+			position = 4
 	)
 	default boolean logInvites() { return true; }
 
@@ -51,7 +63,7 @@ public interface ClanActionLoggerConfig extends Config
 			name = "Log Rank Changes",
 			description = "Sends a log when a member is promoted or demoted",
 			section = adminSection,
-			position = 4
+			position = 5
 	)
 	default boolean logPromotions() { return true; }
 
@@ -70,7 +82,7 @@ public interface ClanActionLoggerConfig extends Config
 					+ "<i><b>Note:</b> Multiple admins can run this plugin together. Background servers handle duplication automatically with zero configuration needed.</i>"
 					+ "</font></body></html>",
 			description = "Configuration guide for your server webhooks",
-			position = 5
+			position = 6
 	)
 	String setupSection = "setupSection";
 }
