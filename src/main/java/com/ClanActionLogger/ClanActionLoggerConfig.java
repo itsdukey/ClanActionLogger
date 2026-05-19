@@ -30,7 +30,7 @@ public interface ClanActionLoggerConfig extends Config
 
 	@ConfigItem(
 			keyName = "enableMonitoring",
-			name = "Enable Monitoring Proxy",
+			name = "Prevent Duplicate Posts",
 			description = "Routes logs through a proxy server to prevent duplicate posts from multiple online admins.",
 			section = adminSection,
 			position = 2,
@@ -68,21 +68,29 @@ public interface ClanActionLoggerConfig extends Config
 	default boolean logPromotions() { return true; }
 
 	// =========================================================
-	// SECTION 2: CLEAN NATIVE SETUP GUIDE
+	// SECTION 2: CLEAN NATIVE SETUP GUIDE (BALANCED LAYOUT)
 	// =========================================================
 	@ConfigSection(
-			name = "<html><body width='180'>"
-					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "<b>📋 PLUGIN SETUP GUIDE</b><br><br>"
-					+ "1. Create a dedicated text channel in your Discord server.<br><br>"
-					+ "2. Go to Channel Settings -> Integrations -> Webhooks and create a webhook.<br><br>"
-					+ "3. Click <b>Copy Webhook URL</b>.<br><br>"
-					+ "4. Paste your plain webhook URL directly into the <b>Admin Webhook URL</b> box above.<br><br>"
-					+ "<hr color='#333333'>"
-					+ "<i><b>Note:</b> Multiple admins can run this plugin together. Background servers handle duplication automatically with zero configuration needed.</i>"
-					+ "</font></body></html>",
-			description = "Configuration guide for your server webhooks",
+			name = "📋 Plugin Setup Guide",
+			description = "Click to expand or collapse the setup instructions",
 			position = 6
 	)
 	String setupSection = "setupSection";
+
+	@ConfigItem(
+			keyName = "displayGuideText",
+			name = "<html><body width='175'>"
+					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
+					+ "1. Create a Discord text channel.<br>"
+					+ "2. Edit Channel > Go to Integrations > Webhooks.<br>"
+					+ "3. Copy & Paste the URL into the box above.<br>"
+					+ "<hr color='#2A2A2A'>"
+					+ "<i>Note: Multi-admin support is active; duplicates filter out automatically.</i><br><br>"
+					+ "<i>Real-time only: An admin must be actively online with the plugin enabled to capture events. Clan changes while offline cannot be detected.</i><br><br>"
+					+ "</font></body></html>",
+			description = "Step-by-step configuration verification checklist",
+			position = 0,
+			section = setupSection
+	)
+	default boolean displayGuideText() { return false; }
 }
