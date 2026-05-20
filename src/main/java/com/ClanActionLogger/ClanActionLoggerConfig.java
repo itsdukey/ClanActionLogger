@@ -12,7 +12,7 @@ public interface ClanActionLoggerConfig extends Config
 	// SECTION 1: ADMINISTRATIVE SETUP
 	// =========================================================
 	@ConfigSection(
-			name = "Administrative Setup",
+			name = "Admin Setup (Required)",
 			description = "Settings for routing and core clan identification",
 			position = 0
 	)
@@ -21,7 +21,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "targetClanName",
 			name = "Clan Name (Case Sensitive)",
-			description = "The exact name of the clan you want to monitor. Must match capitalization perfectly.",
+			description = "<html>The exact name of the clan you want to monitor.<br>Must match capitalization perfectly.</html>",
 			section = adminSetupSection,
 			position = 1
 	)
@@ -30,7 +30,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "adminAccountNames",
 			name = "Your RSN Here",
-			description = "Authorizes the plugin to report events for the target clan only when you are logged into these specific username(s). Separate multiple names with commas.",
+			description = "<html>Authorizes the plugin to report events for the target clan only<br>when you are logged into these specific username(s).<br>Separate multiple names with commas.</html>",
 			section = adminSetupSection,
 			position = 2
 	)
@@ -39,7 +39,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "adminWebhookUrl",
 			name = "Discord Webhook URL",
-			description = "Paste your plain Discord webhook URL directly here for logs regarding kicks, invites, and ranks.",
+			description = "<html>Paste your plain Discord webhook URL directly here<br>for logs regarding kicks, invites, and ranks.</html>",
 			section = adminSetupSection,
 			position = 3,
 			secret = true
@@ -48,8 +48,8 @@ public interface ClanActionLoggerConfig extends Config
 
 	@ConfigItem(
 			keyName = "enableMonitoring",
-			name = "Prevent Duplicate Posts",
-			description = "Routes logs through a proxy server to prevent duplicate posts from multiple online admins.",
+			name = "Multi-User Support (optional)",
+			description = "<html>Routes logs through a proxy server to prevent<br>duplicate posts from multiple online admins.</html>",
 			section = adminSetupSection,
 			position = 4,
 			warning = "Enabling this routes your clan logs through a remote third-party deduplication proxy server to safely intercept and eliminate double-posts from multiple online admins.\n\n"
@@ -71,7 +71,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "logKicks",
 			name = "Log Kicks & Bans",
-			description = "Sends a log when a member is expelled or banned from the clan chat",
+			description = "<html>Sends a log when a member is expelled<br>or banned from the clan chat.</html>",
 			section = onlineTrackingSection,
 			position = 6
 	)
@@ -80,7 +80,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "logInvites",
 			name = "Log Invites",
-			description = "Sends a log when a member is recruited or invited to the permanent clan roster",
+			description = "<html>Sends a log when a member is recruited<br>or invited to the permanent clan roster.</html>",
 			section = onlineTrackingSection,
 			position = 7
 	)
@@ -89,7 +89,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "logPromotions",
 			name = "Log Rank Changes",
-			description = "Sends a log when a member is promoted or demoted",
+			description = "<html>Sends a log when a member is<br>promoted or demoted.</html>",
 			section = onlineTrackingSection,
 			position = 8
 	)
@@ -108,7 +108,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "offlineAuditAccountNames",
 			name = "RSN(s) used for Offline Audit",
-			description = "Comma-separated list of usernames that will trigger the offline audit summary on login. (recommend only using one) leaving this blank will trigger a offline update webhook output for every account you log into, within the clan stated above",
+			description = "<html>Comma-separated list of usernames that will trigger the offline audit summary on login.<br>(recommend only using one)<br><br>Leaving this blank will trigger an offline update webhook output<br>for every account you log into, within the clan stated above.</html>",
 			section = offlineTrackingSection,
 			position = 10
 	)
@@ -117,7 +117,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "trackOfflineChanges",
 			name = "Track Offline Roster Changes",
-			description = "Compares the clan roster on login to detect who joined or left while you were offline.",
+			description = "<html>Compares the clan roster on login to detect<br>who joined or left while you were offline.</html>",
 			section = offlineTrackingSection,
 			position = 11
 	)
@@ -126,7 +126,7 @@ public interface ClanActionLoggerConfig extends Config
 	@ConfigItem(
 			keyName = "trackOfflineRanks",
 			name = "Track Offline Rank Changes",
-			description = "Compares member ranks on login to detect promotions or demotions while you were offline.",
+			description = "<html>Compares member ranks on login to detect<br>promotions or demotions while you were offline.</html>",
 			section = offlineTrackingSection,
 			position = 12
 	)
@@ -153,7 +153,7 @@ public interface ClanActionLoggerConfig extends Config
 					+ "4. Enter your exact Clan Name into the Target box (Case Sensitive).<br>"
 					+ "5. Enter the RSN of YOUR ACCOUNT that's in the clan you want to monitor, multiple names supported, separated by commas.<br>"
 					+ "<hr color='#2A2A2A'>"
-					+ "<i>Optional: Prevent Duplicate Posts routes logs through third party server to remove duplicate posts in discord by multiple admins running plugin Simultaneously</i>"
+					+ "<i>Optional: Multi-User Support Checkbox routes logs through third party server to prevent duplicate posts in discord by multiple users running plugin simultaneously</i>"
 					+ "</font></body></html>",
 			description = "Step-by-step configuration verification checklist",
 			position = 14,
@@ -202,7 +202,7 @@ public interface ClanActionLoggerConfig extends Config
 			keyName = "guideOfflineText",
 			name = "<html><body width='175'>"
 					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "<i>Compares live rosters against your last saved session cache upon login to compile a summary of changes made while admins were offline.</i><br><br>"
+					+ "Compares clan list against your last login session cache to make a comparison of changes since you were last online.<br><br>"
 					+ "<b>RSN(s) for Offline Audit:</b> Specify an account name to limit who triggers the audit on login. If left blank, the first authorized admin to log in will trigger the report.<br><br>"
 					+ "<b>Track Roster Changes:</b> Reports members who joined or left the clan entirely while you were offline.<br><br>"
 					+ "<b>Track Rank Changes:</b> Reports members whose ranks were adjusted while you were offline."
