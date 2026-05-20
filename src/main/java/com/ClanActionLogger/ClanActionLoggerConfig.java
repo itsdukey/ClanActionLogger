@@ -147,10 +147,10 @@ public interface ClanActionLoggerConfig extends Config
 			keyName = "guideAdminText",
 			name = "<html><body width='175'>"
 					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "1. Create a Discord text channel.<br>"
-					+ "2. Edit Channel > Go to Integrations > Webhooks.<br>"
-					+ "3. Copy & Paste the URL into the box above.<br>"
-					+ "4. Enter your exact Clan Name into the Target box (Case Sensitive).<br>"
+					+ "1. Create a Discord text channel.<br><br>"
+					+ "2. Edit Channel > Go to Integrations > Webhooks.<br><br>"
+					+ "3. Copy & Paste the URL into the box above.<br><br>"
+					+ "4. Enter your exact Clan Name into the Target box (Case Sensitive).<br><br>"
 					+ "5. Enter the RSN of YOUR ACCOUNT that's in the clan you want to monitor, multiple names supported, separated by commas.<br>"
 					+ "<hr color='#2A2A2A'>"
 					+ "<i>Optional: Multi-User Support Checkbox routes logs through third party server to prevent duplicate posts in discord by multiple users running plugin simultaneously</i>"
@@ -176,10 +176,10 @@ public interface ClanActionLoggerConfig extends Config
 			keyName = "guideOnlineText",
 			name = "<html><body width='175'>"
 					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "Controls real-time notifications sent to Discord when an event occurs in-game.<br><br>"
-					+ "<b>Log Kicks & Bans:</b> Triggers when an admin kicks or bans someone from the Clan Chat channel, or expels them from the permanent roster.<br><br>"
-					+ "<b>Log Invites:</b> Triggers when a player is successfully recruited or invited into the clan.<br><br>"
-					+ "<b>Log Rank Changes:</b> Triggers when a member is promoted or demoted."
+					+ "These options will send discord notifications when you are logged into the Game & Clan on the RSN you entered in \"Admin setup\" .<br><br>"
+					+ "<b>Log Kicks & Bans:</b> Sends Discord notification when an Admin kicks, bans, or expels someone from the Clan Chat channel.<br><br>"
+					+ "<b>Log Invites:</b> Sends Discord notification when a player is successfully invited into the clan.<br><br>"
+					+ "<b>Log Rank Changes:</b> Sends Discord notification when a member is promoted or demoted."
 					+ "</font></body></html>",
 			description = "Explanation of real-time tracking features",
 			position = 16,
@@ -202,10 +202,10 @@ public interface ClanActionLoggerConfig extends Config
 			keyName = "guideOfflineText",
 			name = "<html><body width='175'>"
 					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "Compares clan list against your last login session cache to make a comparison of changes since you were last online.<br><br>"
-					+ "<b>RSN(s) for Offline Audit:</b> Specify an account name to limit who triggers the audit on login. If left blank, the first authorized admin to log in will trigger the report.<br><br>"
-					+ "<b>Track Roster Changes:</b> Reports members who joined or left the clan entirely while you were offline.<br><br>"
-					+ "<b>Track Rank Changes:</b> Reports members whose ranks were adjusted while you were offline."
+					+ "Compares your Clan List against your last login session to make a comparison of changes since you were last online.<br><br>"
+					+ "<b>RSN(s) for Offline Audit:</b> Specify account(s) name to limit who triggers the audit on login. If left blank, Any account you log into listed in \"Admin Setup\" will trigger an audit.<br><br>"
+					+ "<b>Track Roster Changes:</b> Reports members who joined or left the clan entirely while you were offline. <i>*This does not track who removed them while offline</i><br><br>"
+					+ "<b>Track Rank Changes:</b> Reports members whose ranks were adjusted while you were offline. * <i>This does not track who made changes while offline</>"
 					+ "</font></body></html>",
 			description = "Explanation of offline audit features",
 			position = 18,
