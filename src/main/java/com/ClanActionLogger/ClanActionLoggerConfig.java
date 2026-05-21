@@ -191,7 +191,7 @@ public interface ClanActionLoggerConfig extends Config
 					+ "3. Copy & Paste the URL into the box above.<br><br>"
 					+ "4. Enter your exact Clan Name into the Target box (Case Sensitive).<br><br>"
 					+ "5. Enter the <b>RSN</b> of&nbsp;<b>YOUR ACCOUNT</b> that's in the clan you want to monitor, multiple names supported, separated by commas.<br><br>"
-					+ "<center><i><font color='#e0a32d'>Optional but recommended</font></i></center><br>"
+					+ "<center><b><font color='#e0a32d'>Optional but recommended</font></b></center><br>"
 					+ "6. Turn on multi-user support to prevent duplicate Discord webhook messages, this works by sending logs to a third party server to de-duplicate, prior to sending to discord.<br><br>"
 					+ "This setting runs on a 60 second window, so if you have 2+ clients and/or users running this plugin in your clan and you do any of the configurable actions, it'll protect from double posting for 60 seconds, on matching actions."
 					+ "</font></body></html>",
