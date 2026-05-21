@@ -20,7 +20,7 @@ public interface ClanActionLoggerConfig extends Config
 
 	@ConfigItem(
 			keyName = "setupNotice",
-			name = "<html><body width='155'><font color='#e0a32d'>Please read the guides below<br>to properly set up the plugin.</font></body></html>",
+			name = "<html><body width='155'><font color='#e0a32d'><b>Please read the guides below<br>to properly set up the plugin.</b></font></body></html>",
 			description = "",
 			section = noticeSection,
 			position = 1
@@ -193,17 +193,17 @@ public interface ClanActionLoggerConfig extends Config
 			keyName = "guideAdminText",
 			name = "<html><body width='155'>"
 					+ "<font color='#A0A0A0' face='sans-serif' size='3'>"
-					+ "<b><center>Setup Steps:</center></b><br>"
-					+ "<center><b>If you are not Discord Owner/Admin, Contact them for the webhook url and skip to step 3</b></center><br>"
-					+ "<center><b><font color='#e0a32d'>Discord Admins</font></b></center><br>"
+					+ "<b>Setup Steps:</b><br><br>"
+					+ "<b>If you are not Discord Owner/Admin, Contact them for the webhook url and skip to step 3</b><br><br>"
+					+ "<b><font color='#e0a32d'>Discord Admins</font></b><br>"
 					+ "1. Create a Discord text channel.<br><br>"
 					+ "2. Edit Channel > Go to Integrations > Webhooks.<br><br>"
-					+ "<center><b><font color='#e0a32d'>Everyone Else</font></b></center><br>"
-					+ "<center>Start Here with the link provided by your Discord Admin</center><br><br>"
+					+ "<b><font color='#e0a32d'>Everyone Else</font></b><br>"
+					+ "Start Here with the link provided by your Discord Admin<br><br>"
 					+ "3. Copy & Paste the URL into the box above.<br><br>"
 					+ "4. Enter your exact Clan Name into the Target box (Case Sensitive).<br><br>"
 					+ "5. Enter the <b>RSN</b> of&nbsp;<b>YOUR ACCOUNT</b> that's in the clan you want to monitor, multiple names supported, separated by commas.<br><br>"
-					+ "<center><b><i><font color='#e0a32d'>Optional but recommended</font></i></b></center><br>"
+					+ "<b><i><font color='#e0a32d'>Optional but recommended</font></i></b><br>"
 					+ "6. Turn on multi-user support to prevent duplicate Discord webhook messages, this works by sending logs to a third party server to de-duplicate, prior to sending to discord.<br><br>"
 					+ "This setting runs on a 60 second window, so if you have 2+ clients and/or users running this plugin in your clan and you do any of the configurable actions, it'll protect from double posting for 60 seconds, on matching actions."
 					+ "</font></body></html>",
